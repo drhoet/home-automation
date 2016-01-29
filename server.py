@@ -5,6 +5,10 @@ import os, configparser, logging, logging.config, threading, time
 def writeDefaultConfig():
 	logger.debug('No config found. Writing default config to server.cfg. Please adapt accordingly and restart the server.')
 	config = configparser.ConfigParser()
+	config['Server'] = {
+		'host': 'localhost',
+		'port': '8080'
+	}
 	config['HueBridge'] = {
 		'ip': '192.168.0.x',
 		'user': 'some_username'
@@ -61,4 +65,4 @@ config.read('server.cfg')
 logger.info('Connecting to Hue Bridge at %s with user name %s', config['HueBridge']['ip'], config['HueBridge']['user'])
 bridge = Bridge( config['HueBridge']['ip'], config['HueBridge']['user'] )
 
-run(host='localhost', port=8080, debug=True)
+run(host=config['Server']['host'], port=config['Server']['port'], debug=True)
